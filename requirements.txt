@@ -1,0 +1,3 @@
+DiscordHooks
+beautifulsoup4
+requests
