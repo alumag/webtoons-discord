@@ -1,7 +1,7 @@
 # webtoon Hooks
 webtoon discord webhooks
 
-![https://i.imgur.com/PdTgcjE.png](Webtoon)
+![Webtoon](https://i.imgur.com/PdTgcjE.png)
 
 ## Installation
 ```
