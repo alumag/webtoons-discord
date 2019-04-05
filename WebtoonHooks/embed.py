@@ -1,10 +1,9 @@
 from textwrap import wrap
 from DiscordHooks import Hook, Embed, EmbedAuthor, Color, EmbedField
 
-from parse_webtoons import parse_releases, genres
+from WebtoonHooks.webtoon import get_daily_releases, genres
 
 img = "https://i.imgur.com/pFDz8Ixl.jpg"
-webhook = "SECRET WEBHOOK URL"
 
 
 class EmbedFieldInline(EmbedField):
@@ -18,8 +17,9 @@ class EmbedFieldInline(EmbedField):
 
 class ReleaseHook(object):
 
-    def __init__(self):
-        self.cards = parse_releases()
+    def __init__(self, webhook):
+        self.webhook = webhook
+        self.cards = get_daily_releases()
 
     def genre_sort(self):
         """Sort the cards by genre"""
@@ -67,7 +67,7 @@ class ReleaseHook(object):
 
         # Send
         hook = Hook(
-            hook_url=webhook,
+            hook_url=self.webhook,
             username="Webtoons Update",
             avatar_url=img,
             embeds=[embed]

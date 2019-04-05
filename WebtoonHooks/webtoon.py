@@ -46,7 +46,7 @@ class Card(object):
         )
 
 
-def get_daily_releases():
+def _get_daily_releases():
     day = time.strftime("%A")
     soup = bs(Session.get(), "lxml")
 
@@ -55,14 +55,11 @@ def get_daily_releases():
     return daily.find_all("li")
 
 
-def parse_releases():
-    cards = get_daily_releases()
+def get_daily_releases():
+    cards = _get_daily_releases()
 
     data = [
         Card(card) for card in cards
     ]
 
     return data
-
-
-print(parse_releases())
