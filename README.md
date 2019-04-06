@@ -5,7 +5,7 @@ webtoon discord webhooks
 
 ## Installation
 ```
-pip install WebtoonHook
+pip install WebtoonHooks
 ```
 
 ## Usage
