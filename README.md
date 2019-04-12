@@ -3,7 +3,7 @@ discord webhooks package for webtoons.com information
 
 ## Installation
 ```bash
-pip install WebtoonHook
+pip install WebtoonHooks
 ```
 
 ## Usage
@@ -52,9 +52,12 @@ Represent one `daily_card` from [dailySchedule](https://www.webtoons.com/en/dail
 'https://www.webtoons.com/en/comedy/boyfriend-of-the-dead/list?title_no=1102'
 >>> card.subject
 'Boyfriend of the dead'
+<<<<<<< HEAD
 >>> card.is_new
 True
 ```
 
 ----
 Made with 💗 for [LINE WEBTOON](https://discord.gg/RB53Z3) by Aluma Gelbard.
+=======
+```
