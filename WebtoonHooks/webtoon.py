@@ -2,11 +2,12 @@ import time
 import requests
 from bs4 import BeautifulSoup as bs
 
-link = "https://www.webtoons.com/en/dailySchedule"
+base_link = "https://www.webtoons.com/en/"
 genres = [
     "Drama", "Fantasy", "Comedy",
     "Action", "Slice of life", "Romance",
-    "Superhero", "Historical", "Thriller", "Sports"
+    "Superhero", "Historical", "Thriller", "Sports",
+    "SCI-FI", "Horror", "Informative"
 ]
 
 
@@ -24,8 +25,12 @@ class Session:
     }
 
     @staticmethod
-    def get(url=link):
+    def get(url=""):
         return Session.session.get(url, data=Session.data).content
+
+    @staticmethod
+    def get_page(page=""):
+        return Session.get(base_link + page)
 
 
 class Card(object):
@@ -36,27 +41,61 @@ class Card(object):
         """
         self.subject = data.find(class_="subj").get_text()
         self.genre = data.find(class_="genre").get_text()
-        self.author = data.find(class_="author").get_text()
-        self.href = data.find(class_="daily_card_item")['href']
+        try:
+            self.author = data.find(class_="author").get_text()
+        except AttributeError:
+            self.author = None
+        try:
+            self.grade = data.find(class_="grade_num").get_text()
+        except AttributeError:
+            self.grade = None
+        self.href = data.find("a")['href']
+        self._data = data
+
+    @property
+    def is_up(self):
+        if self._data.find(class_="txt_ico_up2"):
+            return True
+        return False
+
+    @property
+    def is_paused(self):
+        if self._data.find(class_="txt_ico_hiatus2"):
+            return True
+        return False
+
+    @property
+    def is_new(self):
+        if self._data.find(class_="txt_ico_new2"):
+            return True
+        return False
 
     def __repr__(self):
-        return "Card({}, {}, {}, {})".format(
-            self.subject, self.genre, self.author,
-            "linked" if self.href else "unlinked"
+        return "Card({}, {}, {})".format(
+            self.subject, self.genre, self.author
         )
 
 
-def _get_daily_releases():
+def get_daily_releases():
     day = time.strftime("%A")
-    soup = bs(Session.get(), "lxml")
+    soup = bs(Session.get_page("dailySchedule"), "lxml")
 
     # Find the daily and split to cards
     daily = soup.find("div", {'class': "daily_section _list_" + day.upper()})
-    return daily.find_all("li")
+    cards = daily.find_all("li")
+
+    data = [
+        Card(card) for card in cards
+    ]
+
+    return data
 
 
-def get_daily_releases():
-    cards = _get_daily_releases()
+def get_weekly_hot():
+    soup = bs(Session.get_page("challenge"), "lxml")
+    # Find the daily and split to cards
+    daily = soup.find("div", {'class': "weekly_hot_area"})
+    cards = daily.find_all("li")
 
     data = [
         Card(card) for card in cards
