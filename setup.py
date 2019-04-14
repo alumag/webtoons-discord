@@ -8,7 +8,7 @@ with open('README.md', encoding='utf-8') as f:
 
 setup(
     name='WebtoonHooks',
-    version='2.0.0',
+    version='2.0.1',
     packages=['WebtoonHooks'],
     install_requires=required,
     url='https://github.com/MissLummie/webtoons-discord',

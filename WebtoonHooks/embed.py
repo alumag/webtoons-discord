@@ -38,8 +38,6 @@ class WebtoonHook(object):
     name = "Webtoon Update"
     description = "Webtoon description"
     color = Color.Lime
-    footer = EmbedFooter(text="webtoon update • {}"
-                         .format(datetime.date.today()))
     author = None
     # get_cards function
     func = list
@@ -51,7 +49,6 @@ class WebtoonHook(object):
             title="",
             description=self.description,
             color=self.color,
-            footer=self.footer
         )
         self.embeds = [self.embed]
         self.create_message()
@@ -133,7 +130,7 @@ class WeeklyHotHook(WebtoonHook):
         for card in self.cards:
             field = EmbedFieldInline(
                 name=card.subject,
-                value="[🔗]({}) | {} {}\n\n💗 {}\n"
+                value="[🔗]({}) | {} {}\n💗 {}\r"
                       .format(card.href, get_emoticon(card.genre),
                               card.genre, card.grade)
             )
